@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -10,7 +10,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [captchaCompleted, setCaptchaCompleted] = useState(false);
   const [captchaError, setCaptchaError] = useState(false);
+
+  const location = useLocation();
   const navigate = useNavigate();
+  const currentPath = location.pathname;
 
   // Define the domain that requires CAPTCHA verification
   const validDomain = 'teasonmike.io.vn';
@@ -37,7 +40,7 @@ function App() {
   useEffect(() => {
     if (captchaCompleted) {
       setTimeout(() => {
-        navigate('/'); // Navigate to home after 2 seconds
+        navigate(currentPath); 
       }, 2000);
     }
   }, [captchaCompleted, navigate]);
