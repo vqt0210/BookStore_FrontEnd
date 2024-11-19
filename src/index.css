@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Optional: Body styling */
+body {
+  line-height: 1.5;
+  font-family: sans-serif;
+}
+
+.banner {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  margin: 0 auto;
+  border: 1px solid red; /* Temporary debug */
+}
