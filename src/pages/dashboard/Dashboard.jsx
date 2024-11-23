@@ -68,7 +68,6 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <span className="inline-block text-2xl font-bold">{data?.trendingBooks}</span>
-                  <span className="inline-block text-xl font-semibold text-gray-500">(13%)</span>
                   <span className="block text-gray-500">Trending Books in This Month</span>
                 </div>
               </div>
