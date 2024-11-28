@@ -50,11 +50,8 @@ export const AuthProvide = ({children}) => {
                 const userData = {
                     email, username: displayName, photo: photoURL
                 } ;
-                setCurrentUser(userData);
-            } else {
-                setCurrentUser(null);
             }
-        });
+        })
 
         return () => unsubscribe();
     }, [])
