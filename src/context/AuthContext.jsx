@@ -49,7 +49,7 @@ export const AuthProvide = ({children}) => {
                 const {email, displayName, photoURL} = user;
                 const userData = {
                     email, username: displayName, photo: photoURL
-                } ;
+                } 
             }
         })
 
