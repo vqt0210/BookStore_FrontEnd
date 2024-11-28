@@ -3,46 +3,39 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form"
 import { useAuth } from '../context/AuthContext';
-import Swal from 'sweetalert2'
 
 const Login = () => {
     const [message, setMessage] = useState("")
-    const { loginUser, signInWithGoogle } = useAuth();
+    const { loginUser, signInWithGoogle} = useAuth();
     const navigate = useNavigate()
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm()
+      } = useForm()
 
-    const onSubmit = async (data) => {
+      const onSubmit = async (data) => {
         try {
             await loginUser(data.email, data.password);
             alert("Login successful!");
             navigate("/")
         } catch (error) {
-            setMessage("Please provide a valid email and password")
+            setMessage("Please provide a valid email and password") 
             console.error(error)
         }
-    }
+      }
 
-    const handleGoogleSignIn = async () => {
+      const handleGoogleSignIn = async () => {
         try {
             await signInWithGoogle();
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Welcome back!",
-                showConfirmButton: false,
-                timer: 1500
-              });
+            alert("Login successful!");
             navigate("/")
         } catch (error) {
-            alert("Google sign in failed!")
+            alert("Google sign in failed!") 
             console.error(error)
         }
-    }
+      }
     return (
         <div className="flex items-center justify-center h-screen bg-gradient-to-b from-indigo-100 to-purple-200">
             <div className="w-full max-w-lg px-8 pt-10 pb-8 mx-auto bg-white border border-purple-300 rounded-lg shadow-lg">
