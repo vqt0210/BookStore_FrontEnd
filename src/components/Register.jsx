@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form"
 import { useAuth } from '../context/AuthContext';
@@ -15,6 +15,7 @@ const Register = () => {
         watch,
         formState: { errors },
     } = useForm()
+    const navigate = useNavigate();
 
     //   register user
 
@@ -39,7 +40,7 @@ const Register = () => {
                 showConfirmButton: false,
                 timer: 1500
               });
-            navigate("/")
+            Navigate("/")
         } catch (error) {
             alert("Google sign in failed!")
             console.error(error)
