@@ -1,73 +1,89 @@
-import {  createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
-const AuthContext =  createContext();
+// Create Auth Context
+const AuthContext = createContext();
 
 export const useAuth = () => {
-    return useContext(AuthContext)
+    return useContext(AuthContext);
 }
 
 const googleProvider = new GoogleAuthProvider();
 
-// authProvider
-export const AuthProvide = ({children}) => {
+// AuthProvider Component
+export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);  // State to store errors
 
-    // register a user
-    const registerUser = async (email,password) => {
-
-        return await createUserWithEmailAndPassword(auth, email, password);
+    // Register a new user
+    const registerUser = async (email, password) => {
+        try {
+            return await createUserWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+            setError(err.message);  // Store error message
+        }
     }
 
-    // login the user
+    // Log in the user
     const loginUser = async (email, password) => {
-    
-        return await signInWithEmailAndPassword(auth, email, password)
+        try {
+            return await signInWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+            setError(err.message);  // Store error message
+        }
     }
 
-    // sing up with google
+    // Sign up with Google
     const signInWithGoogle = async () => {
-     
-        return await signInWithPopup(auth, googleProvider)
+        try {
+            return await signInWithPopup(auth, googleProvider);
+        } catch (err) {
+            setError(err.message);  // Store error message
+        }
     }
 
-    // logout the user
+    // Log out the user
     const logout = () => {
-        return signOut(auth)
+        return signOut(auth);
     }
 
-    // manage user
+    // Manage user state with onAuthStateChanged
     useEffect(() => {
-        const unsubscribe =  onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
             setLoading(false);
-
-            if(user) {
-               
-                const {email, displayName, photoURL} = user;
+            
+            // If user is authenticated, you can store more user data if needed
+            if (user) {
+                const { email, displayName, photoURL } = user;
                 const userData = {
-                    email, username: displayName, photo: photoURL
-                } 
+                    email,
+                    username: displayName,
+                    photo: photoURL,
+                };
+                // You can update the state with the user data if needed
             }
-        })
+        });
 
-        return () => unsubscribe();
-    }, [])
+        return () => unsubscribe();  // Clean up listener on component unmount
+    }, []);
 
-
+    // Provide context to the rest of the app
     const value = {
         currentUser,
         loading,
+        error,  // Provide error to the components
         registerUser,
         loginUser,
         signInWithGoogle,
-        logout
-    }
+        logout,
+    };
+
     return (
         <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
