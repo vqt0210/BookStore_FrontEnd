@@ -3,49 +3,42 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form"
 import { useAuth } from '../context/AuthContext';
-import Swal from 'sweetalert2'
 
 const Register = () => {
+    const navigate = useNavigate();
     const [message, setMessage] = useState("");
-    const { registerUser, signInWithGoogle } = useAuth();
+    const {registerUser, signInWithGoogle} = useAuth();
     // console.log(registerUser)
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm()
-    const navigate = useNavigate();
+      } = useForm()
 
     //   register user
 
-    const onSubmit = async (data) => {
+      const onSubmit = async(data) => {
         // console.log(data)
         try {
             await registerUser(data.email, data.password);
             alert("User registered successfully!")
         } catch (error) {
-            setMessage("Please provide a valid email and password")
-            console.error(error)
+           setMessage("Please provide a valid email and password") 
+           console.error(error)
         }
-    }
+      }
 
-    const handleGoogleSignIn = async () => {
+      const handleGoogleSignIn = async() => {
         try {
             await signInWithGoogle();
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Login Success!!",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            Navigate("/")
+            alert("Login successful!");
+            navigate("/")
         } catch (error) {
-            alert("Google sign in failed!")
+            alert("Google sign in failed!") 
             console.error(error)
         }
-    }
+      }
     return (
         <div className="flex items-center justify-center h-screen bg-gradient-to-b from-indigo-100 to-purple-200">
             <div className="flex w-full max-w-4xl px-8 pt-10 pb-8 mx-auto bg-white border border-purple-300 rounded-lg shadow-lg">
